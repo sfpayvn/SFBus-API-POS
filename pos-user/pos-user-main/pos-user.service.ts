@@ -44,10 +44,6 @@ export class PosUserService {
     return this.userService.updatePassword(userId, PosUpdatePasswordUserDto, tenantId);
   }
 
-  async validateUser(phoneNumber: string, password: string, tenantCode: string): Promise<PosUserDto | null> {
-    return this.userService.validateUser(phoneNumber, password, tenantCode);
-  }
-
   // Tìm người dùng theo ID
   async findById(userId: Types.ObjectId, tenantId: Types.ObjectId): Promise<PosUserDto | null> {
     return this.userService.findById(userId, tenantId);

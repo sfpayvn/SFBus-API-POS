@@ -23,6 +23,14 @@ export class PosBusStationService {
     return this.busStationService.findAll(tenantIds);
   }
 
+  async findAllAvailable(tenantIds: Types.ObjectId[]): Promise<PosBusStationDto[]> {
+    return this.busStationService.findAllAvailable(tenantIds);
+  }
+
+  async findOffices(tenantIds: Types.ObjectId[]): Promise<PosBusStationDto[]> {
+    return this.busStationService.findOffices(tenantIds);
+  }
+
   async findOne(id: Types.ObjectId, tenantIds: Types.ObjectId[]): Promise<PosBusStationDto> {
     return this.busStationService.findOne(id, tenantIds);
   }

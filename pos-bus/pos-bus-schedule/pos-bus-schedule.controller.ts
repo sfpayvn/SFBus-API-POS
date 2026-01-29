@@ -63,4 +63,53 @@ export class PosBusScheduleController {
     const { tenantId } = user;
     return this.posBusScheduleService.searchBusSchedulePaging(+pageIdx, +pageSize, keyword, sortBy, filters, tenantId);
   }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ROLE_CONSTANTS.POS, ROLE_CONSTANTS.ADMIN)
+  @Post('search/departure')
+  async searchBusScheduleDeparture(
+    @Body(ParseObjectIdPipe) query: PosSearchBusSchedulePagingQuery,
+    @CurrentUser(ParseObjectIdPipe) user: UserTokenDto,
+  ) {
+    const {
+      pageIdx = 0,
+      pageSize = 0,
+      keyword = '',
+      sortBy = {
+        key: 'createdAt',
+        value: 'desc',
+      },
+      filters = [],
+    } = query;
+    const { tenantId } = user;
+    return this.posBusScheduleService.searchBusScheduleDeparture(
+      +pageIdx,
+      +pageSize,
+      keyword,
+      sortBy,
+      filters,
+      tenantId,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ROLE_CONSTANTS.POS, ROLE_CONSTANTS.ADMIN)
+  @Post('search/arrival')
+  async searchBusScheduleArrival(
+    @Body(ParseObjectIdPipe) query: PosSearchBusSchedulePagingQuery,
+    @CurrentUser(ParseObjectIdPipe) user: UserTokenDto,
+  ) {
+    const {
+      pageIdx = 0,
+      pageSize = 0,
+      keyword = '',
+      sortBy = {
+        key: 'createdAt',
+        value: 'desc',
+      },
+      filters = [],
+    } = query;
+    const { tenantId } = user;
+    return this.posBusScheduleService.searchBusScheduleArrival(+pageIdx, +pageSize, keyword, sortBy, filters, tenantId);
+  }
 }

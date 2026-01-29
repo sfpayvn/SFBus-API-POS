@@ -1,11 +1,34 @@
+import { DeliveryType, FulfillmentMode, GoodsEventType } from '@/module/core/goods/types/goods.types';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsOptional, ValidateNested } from 'class-validator';
 import { Types } from 'mongoose';
 
+export class PosCreateGoodsEvent {
+  @IsNotEmpty()
+  @Type(() => Types.ObjectId)
+  type: GoodsEventType;
+
+  @IsNotEmpty()
+  @Type(() => Types.ObjectId)
+  stationId?: Types.ObjectId; // station liên quan (drop/nhận/...)
+
+  @IsNotEmpty()
+  @Type(() => Types.ObjectId)
+  scheduleId?: Types.ObjectId; // schedule liên quan
+
+  @IsNotEmpty()
+  @Type(() => String)
+  note?: string = '';
+
+  @IsNotEmpty()
+  @Type(() => Date)
+  createdAt?: Date;
+}
+
 export class PosCreateGoodsDto {
   status: string;
-  goodsNumber: string;
   paymentStatus: string;
+  goodsNumber: string;
 
   @IsNotEmpty()
   @Type(() => Types.ObjectId)
@@ -38,10 +61,6 @@ export class PosCreateGoodsDto {
   @IsNotEmpty()
   @Type(() => String)
   senderPhoneNumber: string;
-
-  @IsOptional()
-  @Type(() => String)
-  senderAddress: string;
 
   @IsNotEmpty()
   @Type(() => Number)
@@ -94,4 +113,44 @@ export class PosCreateGoodsDto {
   @IsOptional()
   @Type(() => String)
   imageIds: Types.ObjectId[];
+
+  @IsOptional()
+  @Type(() => Types.ObjectId)
+  originStationId?: Types.ObjectId; // station gửi (office gửi)
+
+  @IsOptional()
+  @Type(() => Types.ObjectId)
+  destinationStationId?: Types.ObjectId; // station nhận (office nhận / hub cuối)
+
+  @IsOptional()
+  @Type(() => Types.ObjectId)
+  currentStationId?: Types.ObjectId; // station hiện tại đang giữ hàng (null khi ON_BOARD)
+
+  @IsOptional()
+  @Type(() => Types.ObjectId)
+  currentScheduleId?: Types.ObjectId; // schedule hiện tại (alias cho busScheduleId)
+
+  // Delivery type & address
+  @IsNotEmpty()
+  @Type(() => String)
+  deliveryType?: DeliveryType; // STATION | ADDRESS
+
+  @IsNotEmpty()
+  @Type(() => String)
+  pickupFulfillmentMode?: FulfillmentMode; // ROADSIDE | STATION
+
+  @IsNotEmpty()
+  @Type(() => String)
+  deliveryFulfillmentMode?: FulfillmentMode; // ROADSIDE | STATION
+
+  @IsOptional()
+  @Type(() => String)
+  pickupAddress?: string; // nếu nhận dọc đường
+
+  @IsOptional()
+  @Type(() => String)
+  deliveryAddress?: string; // nếu giao tận nhà
+
+  // NEW: history log
+  events: PosCreateGoodsEvent[] = [];
 }

@@ -41,6 +41,24 @@ export class PosBusStationController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ROLE_CONSTANTS.POS, ROLE_CONSTANTS.ADMIN)
   @UseInterceptors(MarkDefaultTenant())
+  @Get('find-all-available')
+  findAllAvailable(@TenantScope() tenantScope: TenantScopeResult) {
+    const { tenantIds } = tenantScope;
+    return this.PosBusStationService.findAllAvailable(tenantIds);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ROLE_CONSTANTS.POS, ROLE_CONSTANTS.ADMIN)
+  @UseInterceptors(MarkDefaultTenant())
+  @Get('find-offices')
+  findOffices(@TenantScope() tenantScope: TenantScopeResult) {
+    const { tenantIds } = tenantScope;
+    return this.PosBusStationService.findOffices(tenantIds);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ROLE_CONSTANTS.POS, ROLE_CONSTANTS.ADMIN)
+  @UseInterceptors(MarkDefaultTenant())
   @Get(':id')
   findOne(@Param('id', ParseObjectIdPipe) id: Types.ObjectId, @TenantScope() tenantScope: TenantScopeResult) {
     const { tenantIds } = tenantScope;

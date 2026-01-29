@@ -53,13 +53,28 @@ export class PosBusScheduleService {
     filters: PosSearchBusSchedulePagingQuerySortFilter[],
     tenantId: Types.ObjectId,
   ): Promise<PosSearchBusSchedulePagingRes> {
-    // const filterByStatus = {
-    //   key: 'status',
-    //   value: EVENT_STATUS.SCHEDULED,
-    // };
-
-    // filters.push(filterByStatus);
-
     return this.busScheduleService.searchBusSchedulePaging(pageIdx, pageSize, keyword, sortBy, filters, tenantId);
+  }
+
+  async searchBusScheduleDeparture(
+    pageIdx: number,
+    pageSize: number,
+    keyword: string,
+    sortBy: PosSearchBusSchedulePagingQuerySortFilter,
+    filters: PosSearchBusSchedulePagingQuerySortFilter[],
+    tenantId: Types.ObjectId,
+  ): Promise<PosSearchBusSchedulePagingRes> {
+    return this.busScheduleService.searchBusScheduleDeparture(pageIdx, pageSize, keyword, sortBy, filters, tenantId);
+  }
+
+  async searchBusScheduleArrival(
+    pageIdx: number,
+    pageSize: number,
+    keyword: string,
+    sortBy: PosSearchBusSchedulePagingQuerySortFilter,
+    filters: PosSearchBusSchedulePagingQuerySortFilter[],
+    tenantId: Types.ObjectId,
+  ): Promise<PosSearchBusSchedulePagingRes> {
+    return this.busScheduleService.searchBusScheduleArrival(pageIdx, pageSize, keyword, sortBy, filters, tenantId);
   }
 }

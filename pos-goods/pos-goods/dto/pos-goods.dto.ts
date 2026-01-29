@@ -7,6 +7,21 @@ import { Types } from 'mongoose';
 import { BusRouteDto } from '@/module/core/bus/bus-route/dto/bus-route.dto';
 import { BusScheduleDto } from '@/module/core/bus/bus-schedule/dto/bus-schedule.dto';
 import { PosGoodsCategoryDto } from '../../pos-good-category/dto/pos-goods-category.dto';
+import { DeliveryType, FulfillmentMode, GoodsEventType } from '@/module/core/goods/types/goods.types';
+
+export class PosGoodsEvent {
+  @Expose()
+  type: GoodsEventType;
+
+  @Expose()
+  stationId?: Types.ObjectId; // station liên quan (drop/nhận/...)
+
+  @Expose()
+  scheduleId?: Types.ObjectId; // schedule liên quan
+
+  @Expose()
+  note?: string = '';
+}
 
 export class PosGoodsDto {
   @Expose()
@@ -22,6 +37,12 @@ export class PosGoodsDto {
   busSchedule: BusScheduleDto;
 
   @Expose()
+  busRouteId: Types.ObjectId;
+
+  @Expose()
+  busRoute: BusRouteDto;
+
+  @Expose()
   name: string;
 
   @Expose()
@@ -34,16 +55,10 @@ export class PosGoodsDto {
   customerPhoneNumber: string;
 
   @Expose()
-  customerAddress: string;
-
-  @Expose()
   senderName: string;
 
   @Expose()
   senderPhoneNumber: string;
-
-  @Expose()
-  senderAddress: string;
 
   @Expose()
   goodsPriority: number;
@@ -67,9 +82,6 @@ export class PosGoodsDto {
   categories: PosGoodsCategoryDto[];
 
   @Expose()
-  busRouteId: Types.ObjectId;
-
-  @Expose()
   weight: number;
 
   @Expose()
@@ -77,9 +89,6 @@ export class PosGoodsDto {
 
   @Expose()
   width: number;
-
-  @Expose()
-  busRoute: BusRouteDto;
 
   @Expose()
   note: string;
@@ -94,7 +103,45 @@ export class PosGoodsDto {
   paidBy: string;
 
   @Expose()
+  imageIds: Types.ObjectId[];
+
+  @Expose()
+  images: string[];
+
+  // Station relationship fields
+  @Expose()
+  originStationId?: Types.ObjectId; // station gửi (office gửi)
+
+  @Expose()
+  destinationStationId?: Types.ObjectId; // station nhận (office nhận / hub cuối)
+
+  @Expose()
+  currentStationId?: Types.ObjectId; // station hiện tại đang giữ hàng (null khi ON_BOARD)
+
+  @Expose()
+  currentScheduleId?: Types.ObjectId; // schedule hiện tại (alias cho busScheduleId)
+
+  // Delivery type & address
+  @Expose()
+  deliveryType?: DeliveryType; // STATION | ADDRESS
+
+  @Expose()
+  pickupFulfillmentMode?: FulfillmentMode; // ROADSIDE | STATION
+
+  @Expose()
+  deliveryFulfillmentMode?: FulfillmentMode; // ROADSIDE | STATION
+
+  @Expose()
+  pickupAddress?: string; // nếu nhận dọc đường
+
+  @Expose()
+  deliveryAddress?: string; // nếu giao tận nhà
+
+  @Expose()
   createdAt: Date;
+
+  // NEW: history log
+  events: PosGoodsEvent[] = [];
 
   @Exclude()
   updatedAt: Date;
@@ -138,4 +185,5 @@ export class PosSearchGoodsPagingRes {
   goods: PosGoodsDto[];
   totalPage: number = 0;
   totalItem: number = 0;
+  countByStatus: Record<string, number> = {};
 }

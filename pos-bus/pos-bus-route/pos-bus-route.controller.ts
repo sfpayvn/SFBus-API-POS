@@ -47,6 +47,15 @@ export class PosBusRouteController {
     return this.PosBusRouteService.findOne(id, tenantIds);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ROLE_CONSTANTS.POS, ROLE_CONSTANTS.ADMIN)
+  @UseInterceptors(MarkDefaultTenant())
+  @Get('find-by-station/:stationId')
+  findByStationId(@Param('stationId', ParseObjectIdPipe) stationId: Types.ObjectId, @TenantScope() tenantScope: TenantScopeResult) {
+    const { tenantIds } = tenantScope;
+    return this.PosBusRouteService.findByStationId(stationId, tenantIds);
+  }
+
   @Post('search')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @UseInterceptors(MarkDefaultTenant())

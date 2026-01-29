@@ -24,6 +24,10 @@ export class PosBusRouteService {
     return this.busRouteService.findOne(id, tenantIds);
   }
 
+  async findByStationId(stationId: Types.ObjectId, tenantIds: Types.ObjectId[]): Promise<PosBusRouteDto[]> {
+    return this.busRouteService.findByStationId(stationId, tenantIds);
+  }
+
   async search(
     pageIdx: number,
     pageSize: number,

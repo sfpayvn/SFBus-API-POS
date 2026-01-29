@@ -18,7 +18,7 @@ export class PosUpdateGoodsDto extends PartialType(PosCreateGoodsDto) {
 export class PosRequestUpdateGoodsScheduleAssignmentDto {
   @IsNotEmpty()
   @Type(() => Types.ObjectId)
-  goodIds: Types.ObjectId[];
+  goodsIds: Types.ObjectId[];
 
   @IsOptional()
   @Type(() => Types.ObjectId)

@@ -112,4 +112,16 @@ export class PosBusScheduleController {
     const { tenantId } = user;
     return this.posBusScheduleService.searchBusScheduleArrival(+pageIdx, +pageSize, keyword, sortBy, filters, tenantId);
   }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ROLE_CONSTANTS.POS, ROLE_CONSTANTS.ADMIN)
+  @Put('update-current-station/:busScheduleId')
+  updateCurrentStation(
+    @Body('currentStationId', ParseObjectIdPipe) currentStationId: Types.ObjectId,
+    @Param('busScheduleId', ParseObjectIdPipe) busScheduleId: Types.ObjectId,
+    @CurrentUser(ParseObjectIdPipe) user: UserTokenDto,
+  ) {
+    const { tenantId } = user;
+    return this.posBusScheduleService.updateCurrentStation(busScheduleId, currentStationId, tenantId);
+  }
 }

@@ -42,7 +42,7 @@ export class PosReportController {
     );
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard) 
   @Roles(ROLE_CONSTANTS.POS, ROLE_CONSTANTS.ADMIN)
   @Post('booking-chart-stats')
   async getBookingChartStats(

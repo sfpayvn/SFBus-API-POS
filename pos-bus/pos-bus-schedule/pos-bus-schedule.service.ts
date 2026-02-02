@@ -53,6 +53,10 @@ export class PosBusScheduleService {
     filters: PosSearchBusSchedulePagingQuerySortFilter[],
     tenantId: Types.ObjectId,
   ): Promise<PosSearchBusSchedulePagingRes> {
+    filters.push({
+      key: 'status',
+      value: [EVENT_STATUS.SCHEDULED, EVENT_STATUS.IN_PROGRESS, EVENT_STATUS.COMPLETED, EVENT_STATUS.OVERDUE],
+    });
     return this.busScheduleService.searchBusSchedulePaging(pageIdx, pageSize, keyword, sortBy, filters, tenantId);
   }
 
@@ -64,6 +68,10 @@ export class PosBusScheduleService {
     filters: PosSearchBusSchedulePagingQuerySortFilter[],
     tenantId: Types.ObjectId,
   ): Promise<PosSearchBusSchedulePagingRes> {
+    filters.push({
+      key: 'status',
+      value: [EVENT_STATUS.SCHEDULED, EVENT_STATUS.IN_PROGRESS, EVENT_STATUS.COMPLETED, EVENT_STATUS.OVERDUE],
+    });
     return this.busScheduleService.searchBusScheduleDeparture(pageIdx, pageSize, keyword, sortBy, filters, tenantId);
   }
 
@@ -75,6 +83,18 @@ export class PosBusScheduleService {
     filters: PosSearchBusSchedulePagingQuerySortFilter[],
     tenantId: Types.ObjectId,
   ): Promise<PosSearchBusSchedulePagingRes> {
+    filters.push({
+      key: 'status',
+      value: [EVENT_STATUS.SCHEDULED, EVENT_STATUS.IN_PROGRESS, EVENT_STATUS.COMPLETED, EVENT_STATUS.OVERDUE],
+    });
     return this.busScheduleService.searchBusScheduleArrival(pageIdx, pageSize, keyword, sortBy, filters, tenantId);
+  }
+
+  async updateCurrentStation(
+    busScheduleId: Types.ObjectId,
+    currentStationId: Types.ObjectId,
+    tenantId: Types.ObjectId,
+  ): Promise<PosBusScheduleDto> {
+    return this.busScheduleService.updateCurrentStation(busScheduleId, currentStationId, tenantId);
   }
 }

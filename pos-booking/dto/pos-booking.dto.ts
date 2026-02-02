@@ -86,6 +86,10 @@ export class PosBookingDto {
   userId: string;
 
   @Expose()
+  @Type(() => Number)
+  quantity: number;
+
+  @Expose()
   @Type(() => PosUserInforBookingDto)
   userInfo: PosUserInforBookingDto;
 
